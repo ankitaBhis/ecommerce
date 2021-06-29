@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { trackPromise } from 'react-promise-tracker';
 import { LoadingSpinnerComponent } from './LoadingSpinner'
+import { useHistory } from "react-router-dom";
+
 import {
     selectedProduct,
 
@@ -12,6 +14,7 @@ import {
 
 
 const ProductDetails = () => {
+    let history = useHistory();
     const { productId } = useParams();
     let product = useSelector((state) => state.product);
     const { image, title, price, category, description } = product;
@@ -24,6 +27,10 @@ const ProductDetails = () => {
             });
         dispatch(selectedProduct(response.data));
     };
+
+    const addToCart=()=>{
+        history.push('/cart');
+    }
 
     useEffect(() => {
         if (productId && productId !== "") fetchProductDetail(productId);
@@ -50,11 +57,11 @@ const ProductDetails = () => {
                                 </h2>
                                 <h3 className="ui brown block header">{category}</h3>
                                 <p>{description}</p>
-                                <div className="ui vertical animated button" tabIndex="0">
-                                    <div className="hidden content">
+                                <div>
+                                    {/* <div className="hidden content">
                                         <i className="shop icon"></i>
-                                    </div>
-                                    <div className="visible content">Add to Cart</div>
+                                    </div> */}
+                                    <button  onClick={addToCart}className="visible content">Add to Cart</button>
                                 </div>
                             </div>
                         </div>
